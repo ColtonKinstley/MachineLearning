@@ -1,5 +1,4 @@
 # MachineLearning
-Machine learning practice and helper scripts.
 A location to keep notes, practice and other information while I study machine learning. I'm following [Elements of Statistical Learning][1] and [Probability and Stochastics.][2] Along with these [Google][4] and [Bloomberg][3] courses on machine learning.
 
 
