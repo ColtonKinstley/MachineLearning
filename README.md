@@ -1,5 +1,5 @@
 # MachineLearning
-A location to keep notes, practice and other information while I study machine learning. I'm following [Elements of Statistical Learning][1] and [Probability and Stochastics.][2] Along with these [Google][4] and [Bloomberg][3] courses on machine learning.
+A location to keep notes, practice and other information while I study machine learning. I'm following [Elements of Statistical Learning][1] by Hastie, Tibshirani and Friedman with [Probability and Stochastics.][2] by Çinlar for probability reference. Along with these [Google][4] and [Bloomberg][3] courses on machine learning.
 
 
 
