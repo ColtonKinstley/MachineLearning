@@ -11,7 +11,7 @@ plot the least squares decision boundary in purple.
 import matplotlib.pyplot as plt
 import numpy as np
 
-from scikitlearn import linear_model
+from sklearn import linear_model
 
 # import pandas as pd
 # import scipy
