@@ -1,19 +1,24 @@
-# Plot the decision boundry for linear least squares on some normally
-# distributed 2-d catigorical data.
+"""
+binary_classifier.py
+====================
+Plot the decision boundry for linear least squares on some normally distributed
+2-d catigorical data. Specifically create two Gaussian distributions in two
+dimensions centered at BLUE_MEAN and ORANGE_MEAN then draw a few samples, plot
+them in orange and blue, classify the space with least squares regression. Then
+plot the least squares decision boundary in purple.
 
+"""
 import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
-import scipy as sp
-import seaborn as sns
-from sklearn import linear_model
 
-# Create two Gaussian distributions in two dimensions centered at (1,1) and (5,5) then
-# draw a few samples, plot them in orange and blue, classify the space with least
-# squares regression. Then plot the least squares decision boundary in purple.
+from scikitlearn import linear_model
+
+# import pandas as pd
+# import scipy
+# import seaborn as sns
 
 
-class Least_Squares_Binary_Classifier:
+class Binary_Classifier:
     def __init__(self):
         self.BLUE_MEAN = (3, 3)
         self.ORANGE_MEAN = (5, 5)
@@ -26,6 +31,7 @@ class Least_Squares_Binary_Classifier:
         self.train_new_model()
 
     def generate_new_sample(self):
+        """generate_new_sample"""
         self.blue_set = np.array([
             list(x) for x in zip(
                 np.random.normal(loc=self.BLUE_MEAN[0], size=self.BLUE_SIZE),
@@ -68,7 +74,7 @@ class Least_Squares_Binary_Classifier:
         self.x1 = (.5 - self.model.intercept_) / self.model.coef_[1]
         self.x2 = (.5 - self.model.intercept_) / self.model.coef_[0]
 
-    def plot_results(self, axis=None):
+    def plot_results(self, axis=None, xlimits=None, ylimits=None):
         # if an axis object is given then add the plots to it and return it otherwise
         # create a figure and return that
         if not axis:
@@ -85,12 +91,14 @@ class Least_Squares_Binary_Classifier:
         ax.scatter(
             x=self.orange_training_set[:, 0],
             y=self.orange_training_set[:, 1],
-            color="orange")
+            color="orange",
+        )
         ax.scatter(
             x=self.blue_test_set[:, 0],
             y=self.blue_test_set[:, 1],
             color="blue",
-            marker="+")
+            marker="+",
+        )
         ax.scatter(
             x=self.orange_test_set[:, 0],
             y=self.orange_test_set[:, 1],
@@ -100,8 +108,10 @@ class Least_Squares_Binary_Classifier:
         ax.plot([self.x1, 0], [0, self.x2],
                 color="purple")  # plot intercepts with line connecting
 
-        ax.set_xlim((0, 10))
-        ax.set_ylim((0, 10))
+        if xlimits:
+            ax.set_xlim(xlimits)
+        if ylimits:
+            ax.set_ylim(ylimits)
 
         if fig1:
             return fig1
