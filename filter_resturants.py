@@ -4,7 +4,7 @@ resturant_data.py
 Data exploration for my interview with The Filter.
 
 """
-import numpy as np
+from numpy import array, delete
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
@@ -122,14 +122,14 @@ def chi_square(row, col, data, lambda_=1):
                         '{col} == @var2'.format(col=col))))
         observations.append(col_obs)
 
-    obs = np.array(observations)
+    obs = array(observations)
     zeros, dropped = [], 0
 
     for index, elem in enumerate(obs.sum(axis=0)):
         if elem == 0:
             zeros.append(index)
             dropped += 1
-    obs = np.delete(obs, zeros, axis=1)
+    obs = delete(obs, zeros, axis=1)
     return chi2_contingency(obs, lambda_=lambda_)
 
 
@@ -151,7 +151,7 @@ def predict_with_tree(features, label, tree_type='regressor', **kwargs):
     feats = []
     for col in features:
         feats.append(resturants[col].cat.codes.values)
-    X = np.array(feats)
+    X = array(feats)
     X = X.T
     y = resturants[label].cat.codes.values
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.40)
