@@ -34,7 +34,8 @@ resturants.rating = resturants.rating.cat.reorder_categories(
 resturants.cuisine_type.cat.rename_categories(
     [cat[0:11] for cat in resturants.cuisine_type.cat.categories])
 resturants['stars'] = resturants.rating.cat.codes
-resturants['over_budget'] = pd.Categorical(resturants.budget < resturants.price)
+resturants['over_budget'] = pd.Categorical(
+    resturants.budget < resturants.price)
 
 data_size = len(resturants)
 
@@ -85,7 +86,7 @@ def facetplot(facet):
 
 
 def bigfacet(data, facet, col, row=None, hue=None):
-    if hue and hue:
+    if hue and row:
         g = sns.FacetGrid(data, row=row, hue=hue, col=col, palette='Set1')
         g.map(percentplot, facet)
         g.set_titles('{row_name:.1s}|{col_name:.8s}')
@@ -143,20 +144,27 @@ def chi2_against_ratings(col, lambda_=1):
         print('{cuisine} : {pval}'.format(cuisine=cuisine, pval=pval))
 
 
-def tree_regressor_ratings():
-    X = np.array([
-        resturants.gender.cat.codes.values, resturants.age.cat.codes.values,
-        resturants.cuisine_type.cat.codes.values,
-        resturants.over_budget.cat.codes.values
-    ])
+features = ['gender', 'age', 'cuisine_type', 'over_budget']
+
+
+def predict_with_tree(features, label, tree_type='regressor', **kwargs):
+    feats = []
+    for col in features:
+        feats.append(resturants[col].cat.codes.values)
+    X = np.array(feats)
     X = X.T
-    y = resturants.rating.cat.codes.values
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.990)
-    clf = tree.DecisionTreeRegressor()
+    y = resturants[label].cat.codes.values
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.40)
+    if tree_type == 'regressor':
+        clf = tree.DecisionTreeRegressor(**kwargs)
+    elif tree_type == 'classifier':
+        clf = tree.DecisionTreeClassifier(**kwargs)
+    else:
+        raise ValueError('tree_type must be one of [regressor, classifier]')
     clf.fit(X_train, y_train)
     return clf, X_test, y_test
 
 
-def test_model(model):
-    clf, X_test, y_test = model()
+def test_model(model, *args, **kwargs):
+    clf, X_test, y_test = model(*args, **kwargs)
     print(mean_absolute_error(y_test, clf.predict(X_test)))
