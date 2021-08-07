@@ -1,0 +1,22 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+ipykernel = "*"
+pandas = "*"
+scipy = "*"
+scikit-learn = "*"
+numpy = "*"
+jupyterlab = "*"
+kaggle = "*"
+tensorflow = "*"
+matplotlib = "*"
+pytesseract = "*"
+
+[dev-packages]
+pudb = "*"
+
+[requires]
+python_version = "3.9"
